@@ -1,6 +1,6 @@
 import React from "react";
 
-const Nav = () => {
+const Nav = props => {
     return (
         <div>
 
@@ -10,26 +10,39 @@ const Nav = () => {
                 </li>
             </ul>
 
-            <ul className="nav bg-secondary a-white justify-content-center">
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="/">Home</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="/view">View</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="/add">Add</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="/update">Update</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="/orderlist">Order List</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link text-white" href="/logout">Logout</a>
-                </li>
-            </ul>
+            {props.authorized ? (
+                <ul className="nav bg-secondary a-white justify-content-center">
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/">Home</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/view">View</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/add">Add</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/update">Update</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/orderlist">Order List</a>
+                    </li>
+
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/login" onClick={props.logout}>Logout</a>
+                    </li>
+                </ul>
+            ) : (
+                <ul className="nav bg-secondary a-white justify-content-center">
+
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/login">Login</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link text-white" href="/register">Register</a>
+                    </li>
+                </ul>
+            )}
         </div>
     );
 }

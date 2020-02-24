@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import Nav from "./components/Nav/Nav";
 import Container from "./components/Container/Container";
 import Add from "./pages/Add";
@@ -7,26 +7,70 @@ import View from "./pages/View";
 import Update from "./pages/Update";
 import OrderList from "./pages/OrderList";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import axios from "axios";
 
 class App extends Component {
+  state = {
+    authorized: false
+  };
+
+  componentDidMount() {
+    this.isAuthorized();
+  }
+
+  isAuthorized = () => {
+    axios.get("/api/authorized")
+      .then(res => {
+        if (res.data.message) {
+          this.setState({ authorized: false });
+        } else {
+          this.setState({ authorized: true });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({ authorized: false });
+      });
+  };
+
+  logout = () => {
+    axios.get("/api/logout")
+      .then(res => {
+        console.log("Logged Out");
+        this.isAuthorized();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  
+  
   render() {
     return (
       <Router>
 
-      <div>
+        <div>
 
-     <Nav/>
-     <Container>
-       <Switch>
-         <Route exact path="/" component={Home}/>
-         <Route exact path="/add" component={Add}/>
-         <Route exact path="/view" component={View}/>
-         <Route exact path="/update" component={Update}/>
-         <Route exact path="/orderlist" component={OrderList}/>
-       </Switch>
-     </Container>
-     
-      </div>
+          <Nav logout={this.logout} authorized={this.state.authorized} />
+          <Container>
+            <Switch>
+              
+            
+              <PrivateRoute exact path="/" component={Home} auth={this.state.authorized}/>
+              <PrivateRoute exact path="/add" component={Add} auth={this.state.authorized}/>
+              <PrivateRoute exact path="/view" component={View} auth={this.state.authorized}/>
+              <PrivateRoute exact path="/update" component={Update} auth={this.state.authorized}/>
+              <PrivateRoute exact path="/orderlist" component={OrderList} auth={this.state.authorized}/>
+              <Route exact path="/login"  component={Login} isAuthorized={this.isAuthorized} />
+              <Route exact path="/register"  component={Register} isAuthorized={this.isAuthorized}/>
+
+            </Switch>
+          </Container>
+
+        </div>
       </Router>
     );
   }
