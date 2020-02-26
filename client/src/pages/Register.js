@@ -8,7 +8,6 @@ class Register extends Component {
         username: "",
         password: "",
         email: "",
-        error: ""
     };
 
     register = event => {

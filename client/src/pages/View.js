@@ -3,7 +3,27 @@ import axios from "axios";
 import Row from "../components/Row/Row";
 
 class View extends React.Component {
-    state = {};
+    state = {
+        products: []
+    };
+
+    componentDidMount() {
+        this.getProducts();
+    }
+
+    getProducts = () => {
+        axios.get("/api/products")
+        .then(res => {
+
+            let data = res.data;
+            this.setState({products: data})
+        })
+    }
+
+    addOrder = product => {
+
+        axios.post("/api/orderlist", product).then(res => this.getProducts())
+    }
 
     render() {
         return (
@@ -25,34 +45,23 @@ class View extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Jack Daniels</td>
-                                        <td>Tennessee Whiskey</td>
-                                        <td>Whiskey</td>
-                                        <td>10</td>
-                                        <td>5</td>
-                                        <td>2/17/2020</td>
-                                        <td><button className="btn btn-success btn-sm">Add to Order List</button><button className="btn btn-warning btn-sm">Update Inventory</button></td>
+                                    {this.state.products.map(product => 
+                                        (
 
-                                    </tr>
-                                    <tr className="table-danger">
-                                        <td>Tito's</td>
-                                        <td>Vodka</td>
-                                        <td>Vodka</td>
-                                        <td>2</td>
-                                        <td>10</td>
-                                        <td>2/17/2020</td>
-                                        <td><button className="btn btn-success btn-sm">Add to Order List</button><button className="btn btn-warning btn-sm">Update Inventory</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Don Julio</td>
-                                        <td>Blanco</td>
-                                        <td>Tequila</td>
-                                        <td>3</td>
-                                        <td>4</td>
-                                        <td>2/17/2020</td>
-                                        <td><button className="btn btn-success btn-sm">Add to Order List</button><button className="btn btn-warning btn-sm">Update Inventory</button></td>
-                                    </tr>
+                                            <tr key={product._id}>
+                                            <td>{product.brand}</td>
+                                            <td>{product.product}</td>
+                                            <td>{product.type}</td>
+                                            <td>{product.count}</td>
+                                            <td>{product.par}</td>
+                                            <td>{product.updated}</td>
+                                            <td><button 
+                                                onClick={() => this.addOrder(product)}
+                                                className="btn btn-success btn-sm">Add to Order List</button><button className="btn btn-warning btn-sm">Update Inventory</button></td>
+
+                                        </tr>
+                                    )
+                                    )}
                                 </tbody>
                             </table>
                         </div>

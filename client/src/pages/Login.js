@@ -7,8 +7,8 @@ class Login extends Component {
     state = {
         username: "",
         password: "",
-        error: ""
     };
+
 
     handleInputChange = event => {
         const { name, value } = event.target;
@@ -27,12 +27,13 @@ class Login extends Component {
                 console.log("error");
             } else {
                 console.log("Login Successful");
-                this.props.isAuthorized();  
+                this.props.isAuthorized(); 
             }
         }).catch(err => {
             console.log(err)
         })
         this.setState({ password: "" });
+        
 
     }
 
