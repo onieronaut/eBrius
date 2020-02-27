@@ -28,12 +28,43 @@ router.put("/api/products/:id", function (req,res) {
     .catch(err => res.status(422).json(err));
 })
 
-router.post("/api/orderlist", function (req,res) {
-    db.OrderList.create(req.body)
+router.get("/api/lowinventory", function(req,res) {
+    db.Product.find({$where: function() {
+        return ( this.par > this.count);
+    }})
+    .then(data => res.json(data))
+    .catch(err => res.status(422).json(err));
+})
+
+router.put("/api/orderlist/:id", function (req,res) {
+    db.Product.findByIdAndUpdate(req.params.id, req.body)
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
+router.get("/api/orderlist", function (req,res) {
+    db.Product.find({isOrdered: true})
+    .then(data => res.json(data))
+    .catch(err => res.status(422).json(err));
+});
+
+router.put("/api/orderlist", function (req,res) {
+    db.Product.updateMany({isOrdered: true}, {isOrdered: false})
+    .then(data => res.json(data))
+    .catch(err => res.status(422).json(err));
+});
+
+router.put("/api/update/:id", function (req,res) {
+    db.Product.findByIdAndUpdate(req.params.id, req.body)
+    .then(data => res.json(data))
+    .catch(err=> res.status(422).json(err));
+});
+
+router.put("/api/update", function(req,res) {
+    db.Product.updateMany({}, req.body)
+    .then(data => res.json(data))
+    .catch(err=> res.status(422).json(err));
+})
 router.post("/api/register", function (req, res) {
     console.log("registering user");
 

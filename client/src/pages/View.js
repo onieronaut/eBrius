@@ -1,29 +1,63 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Row from "../components/Row/Row";
+import moment from "moment";
+import Col from "../components/Col/Col";
 
 class View extends React.Component {
     state = {
-        products: []
+        products: [],
+        count: ""
     };
 
     componentDidMount() {
-        this.getProducts();
-    }
+        this.toggleAllUpdatesOff();
+    };
+
+    handleInputChange = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        });
+    };
 
     getProducts = () => {
         axios.get("/api/products")
-        .then(res => {
+            .then(res => {
 
-            let data = res.data;
-            this.setState({products: data})
-        })
+                let data = res.data;
+                this.setState({ products: data })
+            })
     }
 
-    addOrder = product => {
+    addOrder = id => {
+        axios.put("/api/orderlist/" + id, { isOrdered: true, addedToList: moment() }).then(res => this.getProducts())
+    };
 
-        axios.post("/api/orderlist", product).then(res => this.getProducts())
+    toggleUpdateOn = id => {
+        axios.put("/api/update/" + id, { toggleUpdate: true }).then(res => this.getProducts());
+    };
+
+    toggleUpdateOff = id => {
+        axios.put("/api/update/" + id, { toggleUpdate: false }).then(res => this.getProducts());
+    };
+
+    toggleAllUpdatesOff = () => {
+        axios.put("/api/update/", {toggleUpdate: false}).then(res => this.getProducts());
     }
+
+    updateItem = id => {
+
+        let data = {
+            count: this.state.count,
+            updated: moment(),
+            toggleUpdate: false
+        }
+
+        axios.put("/api/products/" + id, data)
+        .then(res => this.getProducts())
+
+    };
 
     render() {
         return (
@@ -45,22 +79,49 @@ class View extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.products.map(product => 
+                                    {this.state.products.map(product =>
                                         (
 
                                             <tr key={product._id}>
-                                            <td>{product.brand}</td>
-                                            <td>{product.product}</td>
-                                            <td>{product.type}</td>
-                                            <td>{product.count}</td>
-                                            <td>{product.par}</td>
-                                            <td>{product.updated}</td>
-                                            <td><button 
-                                                onClick={() => this.addOrder(product)}
-                                                className="btn btn-success btn-sm">Add to Order List</button><button className="btn btn-warning btn-sm">Update Inventory</button></td>
+                                                <td>{product.brand}</td>
+                                                <td>{product.product}</td>
+                                                <td>{product.type}</td>
 
-                                        </tr>
-                                    )
+                                                {product.toggleUpdate ?
+                                                    (<td>
+                                                        <input
+                                                        name="count"
+                                                        type="text"
+                                                        onChange={this.handleInputChange}
+                                                        value={this.state.count}
+                                                        className="form-control"></input></td>) :
+                                                      
+                                                    (<td>{product.count}</td>)}
+
+                                                <td>{product.par}</td>
+                                                <td>{moment(product.updated).format('MMMM Do YYYY, h:mm A')}</td>
+
+                                                {product.toggleUpdate ?
+                                                    (<td>
+                                                        <button
+                                                            onClick={() => this.updateItem(product._id)}
+                                                            className="btn btn-success btn-sm">Update</button>
+                                                        <button
+                                                            onClick={() => this.toggleUpdateOff(product._id)}
+                                                            className="btn btn-danger btn-sm">Cancel</button>
+                                                    </td>) :
+                                                    (<td>
+                                                        <button
+                                                            onClick={() => this.addOrder(product._id)}
+                                                            className="btn btn-success btn-sm">Add to Order List</button>
+                                                        <button
+                                                            onClick={() => this.toggleUpdateOn(product._id)}
+                                                            className="btn btn-warning btn-sm">Update Inventory</button>
+                                                    </td>)}
+
+
+                                            </tr>
+                                        )
                                     )}
                                 </tbody>
                             </table>

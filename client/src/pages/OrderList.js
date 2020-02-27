@@ -1,9 +1,33 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Row from "../components/Row/Row";
+import moment from "moment";
 
 class OrderList extends React.Component {
-    state = {};
+    state = {
+        orderlist: []
+    };
+
+    componentDidMount() {
+        this.getOrderList();
+    };
+
+    getOrderList = () => {
+
+        axios.get("/api/orderlist")
+            .then(res => this.setState({orderlist: res.data}))
+    };
+
+    deleteItem = id => {
+
+        axios.put("/api/orderlist/" + id, {isOrdered: false} )
+            .then(res => this.getOrderList())
+    }
+
+    clearList = () => {
+        axios.put("/api/orderlist", {isOrdered: false})
+        .then(res => this.getOrderList())
+    };
 
     render() {
         return (
@@ -26,39 +50,25 @@ class OrderList extends React.Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Jack Daniels</td>
-                                    <td>Tennessee Whiskey</td>
-                                    <td>Whiskey</td>
-                                    <td>10</td>
-                                    <td>5</td>
-                                    <td>2/17/2020</td>
-                                    <td><button className="btn btn-danger btn-sm">Remove from List</button></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td>Tito's</td>
-                                    <td>Vodka</td>
-                                    <td>Vodka</td>
-                                    <td>2</td>
-                                    <td>10</td>
-                                    <td>2/17/2020</td>
-                                    <td><button className="btn btn-danger btn-sm">Remove from List</button></td>
-                                </tr>
-                                <tr>
-                                    <td>Don Julio</td>
-                                    <td>Blanco</td>
-                                    <td>Tequila</td>
-                                    <td>3</td>
-                                    <td>4</td>
-                                    <td>2/17/2020</td>
-                                    <td><button className="btn btn-danger btn-sm">Remove from List</button></td>
-                                </tr>
+                                {this.state.orderlist.map(item => (
+                                    <tr key={item._id}>
+
+                                    <td>{item.brand}</td>
+                                    <td>{item.product}</td>
+                                    <td>{item.type}</td>
+                                    <td>{item.par}</td>
+                                    <td>{item.count}</td>
+                                    <td>{moment(item.addedToList).format('MMMM Do YYYY, h:mm A')}</td>
+                                    <td><button
+                                        onClick={() => this.deleteItem(item._id)} 
+                                        className="btn btn-danger btn-sm">Remove from List</button></td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                         </div>  
                         <button className="btn btn-success">Export as PDF</button>
-                        <button className="btn btn-danger">Clear Order List</button>
+                        <button onClick={this.clearList} className="btn btn-danger">Clear Order List</button>
                     </div>
                 </div>
             </Row>

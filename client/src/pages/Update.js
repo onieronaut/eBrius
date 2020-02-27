@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Row from "../components/Row/Row";
-import Col from "../components/Col/Col"
+import Col from "../components/Col/Col";
+import moment from "moment";
 
 class Update extends React.Component {
     state = {
@@ -43,7 +44,8 @@ class Update extends React.Component {
         let id = this.state.option
 
         let data = {
-            count: this.state.count
+            count: this.state.count,
+            updated: moment()
         }
 
         axios.put("/api/products/" + id, data)
@@ -108,7 +110,7 @@ class Update extends React.Component {
                                     </Col>
                                     <Col size="form-group col-sm-4 text-left">
                                         <label>Last Updated</label>
-                                        <input name="updated" type="text" className="form-control-plaintext" value={this.state.singleProduct.updated} readOnly></input>
+                                        <input name="updated" type="text" className="form-control-plaintext" value={moment(this.state.singleProduct.updated).format('MMMM Do YYYY, h:mm A')} readOnly></input>
                                     </Col>
                                 </Col>
 
