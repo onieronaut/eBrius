@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 import Row from "../components/Row/Row";
 import Col from "../components/Col/Col";
@@ -73,10 +73,11 @@ class Update extends React.Component {
                                     {product.brand} {product.product}</option>
                                 ))}
                             </select>
-                            <button onClick={() => this.getSingleProduct(this.state.option)}>search</button>
+                            <button className="btn btn-primary mt-3" onClick={() => this.getSingleProduct(this.state.option)}>Search</button>
                         </div>
                     </div>
                 </Row>
+                
                 <Row className="text-center">
                     <div className="card w-100 mt-3 border-dark">
                         <h4 className="card-header">Product</h4>
@@ -108,10 +109,16 @@ class Update extends React.Component {
                                         <label>Last Count</label>
                                         <input name="lastCount" type="text" className="form-control-plaintext" value={this.state.singleProduct.count} readOnly></input>
                                     </Col>
-                                    <Col size="form-group col-sm-4 text-left">
-                                        <label>Last Updated</label>
-                                        <input name="updated" type="text" className="form-control-plaintext" value={moment(this.state.singleProduct.updated).format('MMMM Do YYYY, h:mm A')} readOnly></input>
-                                    </Col>
+                                    {this.state.singleProduct.updated ?
+                                     (<Col size="form-group col-sm-4 text-left">
+                                     <label>Last Updated</label>
+                                     <input name="updated" type="text" className="form-control-plaintext" value={moment(this.state.singleProduct.updated).format('MMMM Do YYYY, h:mm A')} readOnly></input>
+                                 </Col>) : 
+                                    (<Col size="form-group col-sm-4 text-left">
+                                    <label>Last Updated</label>
+                                    <input name="updated" type="text" className="form-control-plaintext" value="" readOnly></input>
+                                </Col>)}
+                                    
                                 </Col>
 
 

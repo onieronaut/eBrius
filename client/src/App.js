@@ -14,7 +14,7 @@ import axios from "axios";
 
 class App extends Component {
   state = {
-    authorized: true
+    authorized: false
   };
 
   componentDidMount() {
@@ -47,8 +47,8 @@ class App extends Component {
       });
   };
 
-
   render() {
+    
     return (
       <Router>
 
@@ -57,17 +57,22 @@ class App extends Component {
           <Nav logout={this.logout} authorized={this.state.authorized} />
           <Container>
             <Switch>
-
-              <PrivateRoute exact path="/" component={Home} auth={this.state.authorized} />
+              <PrivateRoute exact path="/home" component={Home} auth={this.state.authorized} />
               <PrivateRoute exact path="/add" component={Add} auth={this.state.authorized} />
               <PrivateRoute exact path="/view" component={View} auth={this.state.authorized} />
               <PrivateRoute exact path="/update" component={Update} auth={this.state.authorized} />
               <PrivateRoute exact path="/orderlist" component={OrderList} auth={this.state.authorized} />
-              <Route exact path="/login">
-                <Login isAuthorized={this.isAuthorized} />
+              <Route path="/login">
+                {this.state.authorized ?
+                  (<Redirect to="/home" />) :
+                  (<Login isAuthorized={this.isAuthorized} />)}
+
               </Route>
-              <Route exact path="/register">
-                <Register isAuthorized={this.isAuthorized} />
+              <Route path="/register">
+                {this.state.authorized ?
+                  (<Redirect to="/home" />) :
+                  (<Login isAuthorized={this.isAuthorized} />)}
+                
               </Route>
 
             </Switch>

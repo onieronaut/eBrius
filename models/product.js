@@ -9,8 +9,9 @@ const productSchema = new Schema({
   count: { type: Number, required: true },
   updated: { type: Date, required: true, default: Date.now() },
   isOrdered: { type: Boolean, required: true, default: false },
-  addedToList: { type: Date, required: true, default: Date.now() },
-  toggleUpdate: { type: Boolean, required: true, default: false }
+  addedToList: { type: Date},
+  toggleUpdate: { type: Boolean, required: true, default: false },
+  userid: {type: Schema.Types.ObjectId, ref: "User"}
 });
 
 const Product = mongoose.model("Product", productSchema);

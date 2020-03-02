@@ -1,4 +1,7 @@
 import React from "react";
+import {
+    Link
+} from "react-router-dom";
 
 const Nav = props => {
     return (
@@ -6,43 +9,42 @@ const Nav = props => {
 
             <ul className="nav bg-primary a-white justify-content-center">
                 <li className="nav-item">
-                    <h1><a className="nav-link text-white" href="/">eBrius</a></h1>
+                    <h1><Link className="text-white text-decoration-none" to="/home">eBrius</Link></h1>
                 </li>
             </ul>
 
             {props.authorized ? (
                 <ul className="nav bg-secondary a-white justify-content-center">
                     <li className="nav-item">
-                        <a className="nav-link text-white" href="/">Home</a>
+                        <Link className="nav-link text-white" to="/home">Home</Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white" href="/view">View</a>
+                        <Link className="nav-link text-white" to="/view">View</Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white" href="/add">Add</a>
+                        <Link className="nav-link text-white" to="/add">Add</Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white" href="/update">Update</a>
+                        <Link className="nav-link text-white" to="/update">Update</Link>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white" href="/orderlist">Order List</a>
+                        <Link className="nav-link text-white" to="/orderlist">Order List</Link>
                     </li>
-
                     <li className="nav-item">
-                        <a className="nav-link text-white" href="/login" onClick={props.logout}>Logout</a>
+                        <Link className="nav-link text-white" to="/logout" onClick={props.logout}>Logout</Link>
                     </li>
                 </ul>
             ) : (
-                <ul className="nav bg-secondary a-white justify-content-center">
+                    <ul className="nav bg-secondary a-white justify-content-center">
 
-                    <li className="nav-item">
-                        <a className="nav-link text-white" href="/login">Login</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link text-white" href="/register">Register</a>
-                    </li>
-                </ul>
-            )}
+                        <li className="nav-item">
+                            <Link className="nav-link text-white" to="/login">Login</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link text-white" to="/register">Register</Link>
+                        </li>
+                    </ul>
+                )}
         </div>
     );
 }

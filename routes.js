@@ -4,67 +4,83 @@ const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
 
-router.post("/api/products", function (req,res) {
+
+// Add new inventory item
+router.post("/api/products", isAuthenticated, function (req, res) {
+    req.body.userid = req.user._id
     db.Product.create(req.body)
-                .then(data => res.json(data))
-                .catch(err => res.status(422).json(err));
+        .then(data => console.log(data))
+        .catch(err => res.status(422).json(err));
 });
 
-router.get("/api/products", function (req,res) {
-    db.Product.find({})
-                .then(data => res.json(data))
-                .catch(err => res.status(422).json(err));
-})
+// Get all inventory items
+router.get("/api/products", isAuthenticated, function (req, res) {
+    db.Product.find({userid: req.user._id}).sort({brand: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
 
-router.get("/api/products/:id", function (req,res) {
+// Get individual inventory item
+router.get("/api/products/:id", isAuthenticated, function (req, res) {
     db.Product.findById(req.params.id)
-                .then(data => res.json(data))
-                .catch(err => res.status(422).json(err));
-})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
 
-router.put("/api/products/:id", function (req,res) {
+
+// Update inventory item on Update page
+router.put("/api/products/:id", isAuthenticated, function (req, res) {
     db.Product.findByIdAndUpdate(req.params.id, req.body)
-    .then(data => res.json(data))
-    .catch(err => res.status(422).json(err));
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
 })
 
-router.get("/api/lowinventory", function(req,res) {
-    db.Product.find({$where: function() {
-        return ( this.par > this.count);
-    }})
-    .then(data => res.json(data))
-    .catch(err => res.status(422).json(err));
-})
+// Get low inventory items
+router.get("/api/lowinventory", isAuthenticated, function (req, res) {
+    db.Product.find({ userid: req.user._id,
+        $where: function () {
+            return (this.par > this.count);
+        }
+    }).sort({brand: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
 
-router.put("/api/orderlist/:id", function (req,res) {
+// Add item to order list
+router.put("/api/orderlist/:id", isAuthenticated, function (req, res) {
     db.Product.findByIdAndUpdate(req.params.id, req.body)
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
-router.get("/api/orderlist", function (req,res) {
-    db.Product.find({isOrdered: true})
-    .then(data => res.json(data))
-    .catch(err => res.status(422).json(err));
+// Get order list items
+router.get("/api/orderlist", isAuthenticated, function (req, res) {
+    db.Product.find({ userid: req.user._id, isOrdered: true }).sort({brand: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
 });
 
-router.put("/api/orderlist", function (req,res) {
-    db.Product.updateMany({isOrdered: true}, {isOrdered: false})
-    .then(data => res.json(data))
-    .catch(err => res.status(422).json(err));
+// Clear order list
+router.put("/api/orderlist", isAuthenticated, function (req, res) {
+    db.Product.updateMany({ userid: req.user._id, isOrdered: true }, { isOrdered: false })
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
 });
 
-router.put("/api/update/:id", function (req,res) {
+// Update inventory item on View page
+router.put("/api/update/:id", isAuthenticated, function (req, res) {
     db.Product.findByIdAndUpdate(req.params.id, req.body)
-    .then(data => res.json(data))
-    .catch(err=> res.status(422).json(err));
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
 });
 
-router.put("/api/update", function(req,res) {
-    db.Product.updateMany({}, req.body)
-    .then(data => res.json(data))
-    .catch(err=> res.status(422).json(err));
-})
+// Switch toggleUpdate between false and true
+router.put("/api/update", isAuthenticated, function (req, res) {
+    db.Product.updateMany({userid: req.user._id}, req.body)
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
+
 router.post("/api/register", function (req, res) {
     console.log("registering user");
 

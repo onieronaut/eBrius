@@ -9,7 +9,7 @@ class Add extends Component {
         product: "",
         type: "",
         par: "",
-        count: ""
+        count: "",
     };
 
     handleInputChange = event => {
