@@ -16,13 +16,11 @@ class OrderList extends React.Component {
     };
 
     getOrderList = () => {
-
         axios.get("/api/orderlist")
             .then(res => this.setState({ orderlist: res.data }))
     };
 
     deleteItem = id => {
-
         axios.put("/api/orderlist/" + id, { isOrdered: false })
             .then(res => this.getOrderList())
     }
@@ -33,7 +31,6 @@ class OrderList extends React.Component {
     };
 
     exportPDF = () => {
-
         this.orderlist.save();
     }
 
@@ -83,50 +80,50 @@ class OrderList extends React.Component {
                 </div>
 
                 <div style={{
-                        position: 'absolute',
-                        left: '-1000px',
-                        height: 792,
-                        width: 612,
-                        padding: 'none',
-                        backgroundColor: 'white',
-                        margin: 'auto',
-                        overflowX: 'hidden',
-                        overflowY: 'hidden',
-                    }}>
-                <PDFExport paperSize={'Letter'}
-                    fileName="order_list.pdf"
-                    title="Order List"
-                    subject=""
-                    keywords=""
-                    ref={(r) => this.orderlist = r}>
-                    
-                        <table className="table table-hover">
-                                <thead className="thead-dark">
-                                    <tr>
-                                        <th scope="col">Brand</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Count</th>
-                                        <th scope="col">Par</th>
-                                        <th scope="col">Date Added</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.state.orderlist.map(item => (
-                                        <tr key={item._id}>
+                    position: 'absolute',
+                    left: '-1000px',
+                    height: 792,
+                    width: 612,
+                    padding: 'none',
+                    backgroundColor: 'white',
+                    margin: 'auto',
+                    overflowX: 'hidden',
+                    overflowY: 'hidden',
+                }}>
+                    <PDFExport paperSize={'Letter'}
+                        fileName="order_list.pdf"
+                        title="Order List"
+                        subject=""
+                        keywords=""
+                        ref={(r) => this.orderlist = r}>
 
-                                            <td>{item.brand}</td>
-                                            <td>{item.product}</td>
-                                            <td>{item.type}</td>
-                                            <td>{item.par}</td>
-                                            <td>{item.count}</td>
-                                            <td>{moment(item.addedToList).format('MMMM Do YYYY, h:mm A')}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                </PDFExport>
-                            </div>
+                        <table className="table table-hover">
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th scope="col">Brand</th>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Count</th>
+                                    <th scope="col">Par</th>
+                                    <th scope="col">Date Added</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.state.orderlist.map(item => (
+                                    <tr key={item._id}>
+
+                                        <td>{item.brand}</td>
+                                        <td>{item.product}</td>
+                                        <td>{item.type}</td>
+                                        <td>{item.par}</td>
+                                        <td>{item.count}</td>
+                                        <td>{moment(item.addedToList).format('MMMM Do YYYY, h:mm A')}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </PDFExport>
+                </div>
 
             </Row>
 
