@@ -62,7 +62,7 @@ class Update extends React.Component {
                         <div className="card-body">
                             <select
                                 name="option"
-                                onChange={this.handleInputChange} 
+                                onChange={ (e) => {this.handleInputChange(e); this.getSingleProduct(this.state.option)}} 
                                 className="custom-select">
 
                                 <option>Select Product</option>
@@ -73,7 +73,7 @@ class Update extends React.Component {
                                     {product.brand} {product.product}</option>
                                 ))}
                             </select>
-                            <button className="btn btn-primary mt-3" onClick={() => this.getSingleProduct(this.state.option)}>Search</button>
+                            {/* <button className="btn btn-primary mt-3" onClick={() => this.getSingleProduct(this.state.option)}>Search</button> */}
                         </div>
                     </div>
                 </Row>
