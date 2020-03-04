@@ -9,7 +9,7 @@ var isAuthenticated = require("./config/middleware/isAuthenticated");
 router.post("/api/products", isAuthenticated, function (req, res) {
     req.body.userid = req.user._id
     db.Product.create(req.body)
-        .then(data => console.log(data))
+        .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 

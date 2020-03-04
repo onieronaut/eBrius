@@ -30,8 +30,6 @@ class Add extends Component {
             count: this.state.count
         }
 
-        console.log(data);
-
         axios.post("/api/products", data).then(res => this.clearFields())
             .catch(err => console.log(err));
 
