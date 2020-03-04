@@ -71,7 +71,7 @@ class App extends Component {
               <Route path="/register">
                 {this.state.authorized ?
                   (<Redirect to="/home" />) :
-                  (<Login isAuthorized={this.isAuthorized} />)}
+                  (<Register isAuthorized={this.isAuthorized} />)}
                 
               </Route>
 
