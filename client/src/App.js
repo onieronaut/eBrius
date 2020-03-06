@@ -12,6 +12,8 @@ import Register from "./pages/Register";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import axios from "axios";
 import "./style.css";
+import Index from "./pages/Index";
+import Footer from "./components/Footer/Footer";
 
 class App extends Component {
   state = {
@@ -76,9 +78,13 @@ class App extends Component {
                 
               </Route>
 
+              <Route path="/">
+                  <Index/>
+              </Route>
+
             </Switch>
           </Container>
-
+                  <Footer />
         </div>
       </Router >
     );
