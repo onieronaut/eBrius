@@ -20,6 +20,41 @@ router.get("/api/products", isAuthenticated, function (req, res) {
         .catch(err => res.status(422).json(err));
 });
 
+// Filter table by type
+router.get("/api/products/filter/type", isAuthenticated, function (req, res) {
+    db.Product.find({userid: req.user._id}).sort({type: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
+
+// Filter table by product name
+router.get("/api/products/filter/product", isAuthenticated, function (req, res) {
+    db.Product.find({userid: req.user._id}).sort({product: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
+
+// Filter table by count
+router.get("/api/products/filter/count", isAuthenticated, function (req, res) {
+    db.Product.find({userid: req.user._id}).sort({count: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
+
+// Filter table by par
+router.get("/api/products/filter/par", isAuthenticated, function (req, res) {
+    db.Product.find({userid: req.user._id}).sort({par: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
+
+// Filter table by last updated
+router.get("/api/products/filter/updated", isAuthenticated, function (req, res) {
+    db.Product.find({userid: req.user._id}).sort({updated: 1})
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+});
+
 // Get individual inventory item
 router.get("/api/products/:id", isAuthenticated, function (req, res) {
     db.Product.findById(req.params.id)

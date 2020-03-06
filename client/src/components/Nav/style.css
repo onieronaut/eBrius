@@ -1,0 +1,11 @@
+.brand {
+    background-color: #222;
+}
+
+.ebriusNav:hover {
+    background-color: #222 !important;
+}
+
+.active {
+    background-color: #222 !important;
+}

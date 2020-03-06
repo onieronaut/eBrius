@@ -73,7 +73,7 @@ class Register extends Component {
                                     onChange={this.handleInputChange}
                                     ></input>
                             </Col>
-                            <button type="submit" className="btn btn-primary w-50 mb-4" onClick={this.register}>Register</button>
+                            <button type="submit" className="btn bg-dark text-white w-50 mb-4" onClick={this.register}>Register</button>
                         </form>
                     </div>
                 </div>

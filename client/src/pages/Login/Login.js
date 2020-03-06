@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Row from "../components/Row/Row";
-import Col from "../components/Col/Col";
+import Row from "../../components/Row/Row";
+import Col from "../../components/Col/Col";
+import "./style.css";
 
 class Login extends Component {
     state = {
@@ -59,14 +60,14 @@ class Login extends Component {
                                 <label>Password</label>
                                 <input
                                     name="password"
-                                    type="text"
+                                    type="password"
                                     className="form-control"
                                     onChange={this.handleInputChange}>
                                 </input>
                             </Col>
-                            <button type="submit" className="btn btn-primary w-50 mb-4" onClick={this.login}>Login</button>
+                            <button type="submit" className="btn login bg-dark text-white w-50 mb-4" onClick={this.login}>Login</button>
                         </form>
-                        <a href="/register">Register</a>
+                        <a className="register" href="/register">Register</a>
                     </div>
                 </div>
 

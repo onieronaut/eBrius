@@ -55,9 +55,6 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                <Row className="text-center p-4">
-                    <h2>Welcome Business Name</h2>
-                </Row>
 
                 <Row className="text-center">
                     <div className="card w-100 mt-3 border-dark">

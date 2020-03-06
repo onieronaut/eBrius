@@ -20,7 +20,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://admin:password1@ds211265.mlab.com:11265/heroku_9cnfmjd8", { useNewUrlParser: true });
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://admin:password1@ds211265.mlab.com:11265/heroku_9cnfmjd8", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ebrius", { useNewUrlParser: true });
 
 // Define API routes here
 app.use(routes);

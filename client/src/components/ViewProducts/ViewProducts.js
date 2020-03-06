@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import "./style.css";
 
 const ViewProducts = props => {
     return (
@@ -7,22 +8,19 @@ const ViewProducts = props => {
             <table className="table table-hover">
                 <thead className="thead-dark">
                     <tr>
-                        <th scope="col">Brand</th>
-                        <th scope="col">Product</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Count</th>
-                        <th scope="col">Par</th>
-                        <th scope="col">Last Updated</th>
+                        <th onClick={() => props.sortTable("brand")} scope="col">Brand</th>
+                        <th onClick={() => props.sortTable("product")} scope="col">Product</th>
+                        <th onClick={() => props.sortTable("type")} scope="col">Type</th>
+                        <th onClick={() => props.sortTable("count")} scope="col">Count</th>
+                        <th onClick={() => props.sortTable("par")} scope="col">Par</th>
+                        <th onClick={() => props.sortTable("updated")} scope="col">Last Updated</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {props.products.map(product =>
                         (
-                            
                             <>
-
-
                             {
                                 product.count < product.par ? 
                                 (<tr key={product._id} className="table-danger" >
@@ -66,10 +64,9 @@ const ViewProducts = props => {
                                             <button
                                                 onClick={() => props.toggleUpdateOn(product._id)}
                                                 className="btn btn-warning btn-sm">Update Inventory</button>
-                                        </td>)}
-    
-    
-                                </tr>) :
+                                        </td>)}    
+                                </tr>) 
+                                :
                                 (<tr key={product._id}>
 
                                     <td>{product.brand}</td>

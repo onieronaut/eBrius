@@ -1,8 +1,10 @@
 import React from "react";
 import axios from "axios";
-import Row from "../components/Row/Row";
+import Row from "../../components/Row/Row";
 import moment from "moment";
-import ViewProducts from "../components/ViewProducts/ViewProducts"
+import ViewProducts from "../../components/ViewProducts/ViewProducts";
+import "./style.css";
+
 
 class View extends React.Component {
     state = {
@@ -59,6 +61,37 @@ class View extends React.Component {
 
     };
 
+    sortTable = col => {
+
+        let route;
+
+        switch (col) {
+            case "brand":
+                route = "/api/products"
+                break;
+            case "product":
+                route = "/api/products/filter/product"
+                break;
+            case "type":
+                route = "/api/products/filter/type"
+                break;
+            case "count":
+                route = "/api/products/filter/count"
+                break;
+            case "par":
+                route = "/api/products/filter/par"
+                break;
+            case "updated":
+                route = "/api/products/filter/updated"
+                break;
+        }
+        axios.get(route)
+        .then(res => {
+            let data = res.data;
+                this.setState({ products: data })
+        })
+    }
+
     render() {
         return (
             <Row className="text-center">
@@ -76,6 +109,7 @@ class View extends React.Component {
                             toggleUpdateOff={this.toggleUpdateOff}
                             toggleUpdateOn={this.toggleUpdateOn}
                             addOrder={this.addOrder}
+                            sortTable={this.sortTable}
                             />
                     </div>
                 </div>

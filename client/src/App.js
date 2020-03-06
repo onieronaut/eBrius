@@ -3,14 +3,15 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import Nav from "./components/Nav/Nav";
 import Container from "./components/Container/Container";
 import Add from "./pages/Add";
-import View from "./pages/View";
+import View from "./pages/View/View";
 import Update from "./pages/Update";
 import OrderList from "./pages/OrderList";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import axios from "axios";
+import "./style.css";
 
 class App extends Component {
   state = {
