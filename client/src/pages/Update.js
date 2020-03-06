@@ -29,7 +29,14 @@ class Update extends React.Component {
         const { name, value } = event.target;
         this.setState({
             [name]: value
-        });
+        })
+    };
+
+    changeProduct = event => {
+        const { name, value } = event.target;
+        this.setState({
+            [name]: value
+        }, () => this.getSingleProduct(this.state.option))
     };
 
     getSingleProduct = id => {
@@ -62,7 +69,7 @@ class Update extends React.Component {
                         <div className="card-body">
                             <select
                                 name="option"
-                                onChange={ (e) => {this.handleInputChange(e); this.getSingleProduct(this.state.option)}} 
+                                onChange={this.changeProduct} 
                                 className="custom-select">
 
                                 <option>Select Product</option>
