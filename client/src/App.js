@@ -13,7 +13,6 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import axios from "axios";
 import "./style.css";
 import Index from "./pages/Index";
-import Footer from "./components/Footer/Footer";
 
 class App extends Component {
   state = {
@@ -51,7 +50,7 @@ class App extends Component {
   };
 
   render() {
-    
+
     return (
       <Router>
 
@@ -75,16 +74,18 @@ class App extends Component {
                 {this.state.authorized ?
                   (<Redirect to="/home" />) :
                   (<Register isAuthorized={this.isAuthorized} />)}
-                
+
               </Route>
 
               <Route path="/">
-                  <Index/>
+                <Index />
               </Route>
 
             </Switch>
           </Container>
-                  <Footer />
+          <nav class="navbar fixed-bottom text-white bg-dark">
+            eBrius
+          </nav>
         </div>
       </Router >
     );

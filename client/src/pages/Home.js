@@ -5,12 +5,14 @@ import moment from "moment";
 
 class Home extends React.Component {
     state = {
+        productsCount: [],
         lowInventory: [],
         count: ""
     };
 
     componentDidMount() {
         this.toggleAllUpdatesOff();
+        this.getProductsCount();
     };
 
     handleInputChange = event => {
@@ -19,6 +21,12 @@ class Home extends React.Component {
             [name]: value
         });
     };
+
+    getProductsCount = () => {
+
+        axios.get("/api/products/count").then(res => this.setState({ productsCount: res.data }));
+
+    }
 
     getLowInventory = () => {
         axios.get("/api/lowinventory").then(res => this.setState({ lowInventory: res.data }));
@@ -56,6 +64,18 @@ class Home extends React.Component {
         return (
             <div>
 
+                <Row className="text-center">
+                    <div className="card w-100 mt-3 border-dark">
+                        <h4 className="card-header">Home</h4>
+                        <div className="card-body">
+                            Today's Date: {moment().format('MMMM Do YYYY')}
+                            <br></br>
+                            {this.state.productsCount} items in inventory
+                            <br></br>
+                            {this.state.lowInventory.length} items are below par
+                        </div>
+                    </div>
+                </Row>
                 <Row className="text-center">
                     <div className="card w-100 mt-3 border-dark">
                         <h4 className="card-header">Low Inventory</h4>

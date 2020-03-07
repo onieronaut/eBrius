@@ -4,6 +4,12 @@ const router = express.Router();
 const db = require("./models");
 var isAuthenticated = require("./config/middleware/isAuthenticated");
 
+// Get the count of all documents in collection
+router.get("/api/products/count", isAuthenticated, function (req, res) {
+    db.Product.countDocuments({ userid: req.user._id })
+        .then(data => res.json(data))
+        .catch(err => res.status(422).json(err));
+})
 
 // Add new inventory item
 router.post("/api/products", isAuthenticated, function (req, res) {
@@ -15,42 +21,42 @@ router.post("/api/products", isAuthenticated, function (req, res) {
 
 // Get all inventory items
 router.get("/api/products", isAuthenticated, function (req, res) {
-    db.Product.find({userid: req.user._id}).sort({brand: 1})
+    db.Product.find({ userid: req.user._id }).sort({ brand: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
 // Filter table by type
 router.get("/api/products/filter/type", isAuthenticated, function (req, res) {
-    db.Product.find({userid: req.user._id}).sort({type: 1})
+    db.Product.find({ userid: req.user._id }).sort({ type: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
 // Filter table by product name
 router.get("/api/products/filter/product", isAuthenticated, function (req, res) {
-    db.Product.find({userid: req.user._id}).sort({product: 1})
+    db.Product.find({ userid: req.user._id }).sort({ product: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
 // Filter table by count
 router.get("/api/products/filter/count", isAuthenticated, function (req, res) {
-    db.Product.find({userid: req.user._id}).sort({count: 1})
+    db.Product.find({ userid: req.user._id }).sort({ count: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
 // Filter table by par
 router.get("/api/products/filter/par", isAuthenticated, function (req, res) {
-    db.Product.find({userid: req.user._id}).sort({par: 1})
+    db.Product.find({ userid: req.user._id }).sort({ par: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
 // Filter table by last updated
 router.get("/api/products/filter/updated", isAuthenticated, function (req, res) {
-    db.Product.find({userid: req.user._id}).sort({updated: 1})
+    db.Product.find({ userid: req.user._id }).sort({ updated: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
@@ -72,11 +78,12 @@ router.put("/api/products/:id", isAuthenticated, function (req, res) {
 
 // Get low inventory items
 router.get("/api/lowinventory", isAuthenticated, function (req, res) {
-    db.Product.find({ userid: req.user._id,
+    db.Product.find({
+        userid: req.user._id,
         $where: function () {
             return (this.par > this.count);
         }
-    }).sort({brand: 1})
+    }).sort({ brand: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
@@ -90,7 +97,7 @@ router.put("/api/orderlist/:id", isAuthenticated, function (req, res) {
 
 // Get order list items
 router.get("/api/orderlist", isAuthenticated, function (req, res) {
-    db.Product.find({ userid: req.user._id, isOrdered: true }).sort({brand: 1})
+    db.Product.find({ userid: req.user._id, isOrdered: true }).sort({ brand: 1 })
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
@@ -111,11 +118,12 @@ router.put("/api/update/:id", isAuthenticated, function (req, res) {
 
 // Switch toggleUpdate between false and true
 router.put("/api/update", isAuthenticated, function (req, res) {
-    db.Product.updateMany({userid: req.user._id}, req.body)
+    db.Product.updateMany({ userid: req.user._id }, req.body)
         .then(data => res.json(data))
         .catch(err => res.status(422).json(err));
 });
 
+// Passport register user
 router.post("/api/register", function (req, res) {
     console.log("registering user");
 
@@ -134,6 +142,7 @@ router.post("/api/register", function (req, res) {
     );
 });
 
+// Passport login user
 router.post("/api/login", function (req, res, next) {
     passport.authenticate("local", function (err, user, info) {
         if (err) {
@@ -151,11 +160,13 @@ router.post("/api/login", function (req, res, next) {
     })(req, res, next);
 });
 
+// Passport logout user
 router.get("/api/logout", function (req, res) {
     req.logout();
     res.json({ message: "logged out" });
 });
 
+// Passport authorization check
 router.get("/api/authorized", isAuthenticated, function (req, res) {
     res.json(req.user);
 });

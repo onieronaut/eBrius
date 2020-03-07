@@ -11,7 +11,7 @@ const Nav = props => {
 
             <ul className="nav brand a-white justify-content-center">
                 <li className="nav-item">
-                    <h1><Link className="text-white text-decoration-none" to="/home">eBrius</Link></h1>
+                    <h1><Link className="text-white text-decoration-none" to="/">eBrius</Link></h1>
                 </li>
             </ul>
 
