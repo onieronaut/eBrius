@@ -56,7 +56,11 @@ class Update extends React.Component {
         }
 
         axios.put("/api/products/" + id, data)
-        .then(res => this.getSingleProduct(this.state.option))
+        .then(res => {
+            this.setState({count: ""})
+            this.getSingleProduct(this.state.option)
+            
+        });
 
     };
 
