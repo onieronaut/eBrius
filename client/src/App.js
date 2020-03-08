@@ -83,9 +83,7 @@ class App extends Component {
 
             </Switch>
           </Container>
-          <nav class="navbar fixed-bottom text-white bg-dark">
-            eBrius
-          </nav>
+        
         </div>
       </Router >
     );
