@@ -34,6 +34,10 @@ Once you have installed the required modules you can start a local server by run
 
 A new browser tab will eventually open via React.
 
+## Thoughts
+
+I created this applicaton because of the many years I spent in the hospitality industry. A bar's main source of income is it's alcohol sales and I have seen many businesses go under because of lack of proper inventory management. In future releases I plan to add analytical insights into usage, broken down by product and type. I could also see this application being hooked up to a Front-Of-House POS system that would dynamically update the inventory counts as sales are made. With that amount of data this application would be able to tell the user precisely how much money they are making or losing based on their inventory methods.
+
 ## Built With
 
 * [Javascript](https://www.javascript.com/)
