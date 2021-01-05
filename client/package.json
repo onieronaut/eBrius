@@ -7,7 +7,7 @@
   "dependencies": {
     "@progress/kendo-drawing": "^1.13.7",
     "@progress/kendo-react-pdf": "^3.11.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "moment": "^2.24.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
